@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-p1KAotb3W9ndluCsqePPYnjRm3c6abdnIjo0tQwYUv83VsbsYd43RuofnFAaDo0E" crossorigin="anonymous">
+    <script type="text/javascript" src="./js/web3.min.js"></script>
+
+    <title>测试钱包功能</title>
+</head>
+
+
+<body>
+    <h1>常用功能</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">功能</th>
+                <th scope="col" style="width:300px;">动作</th>
+                <th scope="col">备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">登录</th>
+                <td><a href="javascript:wlogin();">点击测试</a></td>
+                <td>用户使用钱包登录（conect wallet）</td>
+            </tr>
+            <tr>
+                <th scope="row">认证</th>
+                <td><a href="javascript:wauth();">点击测试</a></td>
+                <td>验证用户钱包地址是否有所属权</td>
+            </tr>
+            <tr>
+                <th scope="row">获取币</th>
+                <td><a href="javascript:wmine();">点击测试</a></td>
+                <td>获取代币用于测试</td>
+            </tr>
+            <tr>
+                <th scope="row">销毁币</th>
+                <td><a href="javascript:wburn();">点击测试</a></td>
+                <td>测试销毁币流程,销毁0.1CGC</td>
+            </tr>
+        </tbody>
+    </table>
+    <h1>常用工具</h1>
+    <ul>
+        <li><a href="javascript:add_wallet();">matamask添加测试网络</a></li>
+        <li><a href="javascript:add_coin();">matamask添加CGC币</a></li>
+    </ul>
+
+    <h1>链接</h1>
+    <ul>
+        <li><a href="./swap.html">交易</a></li>
+    </ul>
+
+    <!-- JavaScript 文件是可选的。从以下两种建议中选择一个即可！ -->
+
+    <!-- 选项 1：jQuery 和 Bootstrap 集成包（集成了 Popper） -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-E5Sj1saJVFNzWWK3YIJB4LEDEEVEGaOdfmCprPDkfWUo+xkb6Ep52Q1TMEtgcFwi"
+        crossorigin="anonymous"></script>
+
+    <!-- 选项 2：Popper 和 Bootstrap 的 JS 插件各自独立 -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-IjeXbuVdL81ilB5LykkImU8JN0WPja/i9uZAt2qjo2TnYk9NJ2MPfN3vzMH0R8n3"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function wlogin() {
+            if (!window.ethereum) {
+                alert("MetaMask is not installed！");
+                return;
+            }
+            if (!ethereum.isMetaMask) {
+                alert("only support MetaMask");
+                return;
+            }
+
+            //确认账号
+            ethereum
+                .request({ method: "eth_requestAccounts" })
+                .then((addresses) => {
+                    if (!addresses[0]) {
+                        alert("not address available");
+                        return;
+                    }
+                    console.log(addresses);
+                    if (addresses.length < 1) {
+                        alert("please select a address");
+                        return;
+                    }
+                    var address = addresses[0];
+                    var web3_ = new Web3(ethereum);
+                    var msg = "I want login this site @2022-01-01";
+                    web3_.eth.personal.sign(msg, addresses[0]).then((data) => {
+                        alert("login ok");
+                    })
+                });
+        }
+        function wauth() {
+            if (!window.ethereum) {
+                alert("MetaMask is not installed！");
+                return;
+            }
+            if (!ethereum.isMetaMask) {
+                alert("only support MetaMask");
+                return;
+            }
+
+            //确认账号
+            ethereum
+                .request({ method: "eth_requestAccounts" })
+                .then((addresses) => {
+                    if (!addresses[0]) {
+                        alert("not address available");
+                        return;
+                    }
+                    console.log(addresses);
+                    if (addresses.length < 1) {
+                        alert("please select a address");
+                        return;
+                    }
+                    var address = addresses[0];
+                    var web3_ = new Web3(ethereum);
+                    var msg = "I want bing " + address + " to xxx company @2022-01-01";
+                    web3_.eth.personal.sign(msg, addresses[0]).then((data) => {
+                        alert("bing ok");
+                    })
+                });
+        }
+
+        function wmine() {
+            alert("请联系管理转账");
+        }
+
+        function wburn() {
+            var receive_address = '0x6A538332F4E9816c7f89c7442B3D57aD4b845cF8';
+            var token_address = '0xC09FE753eB593449Ea8F4031CF3a88236aEA92d3';
+            if (!window.ethereum) {
+                alert("MetaMask is not installed！");
+                return;
+            }
+            if (!ethereum.isMetaMask) {
+                alert("only support MetaMask");
+                return;
+            }
+
+            var chainId = ethereum.chainId;
+            if (chainId && chainId != '0x61') {
+                let msg =
+                    "Peleas change network Smart Chain - Testnet ";
+                alert(msg);
+                return;
+            }
+
+            var minABI = [{ "constant": false, "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "type": "function" }, { "constant": false, "inputs": [{ "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [{ "name": "", "type": "bool" }], "type": "function" }];
+            var web3_ = new Web3();
+            coin_num = 0.1;
+            var contract = new web3_.eth.Contract(minABI, token_address);
+            var params = {
+                from: ethereum.selectedAddress,
+                to: token_address,
+                value: "0x0",
+                chainId: 97,
+                data: contract.methods.burn((coin_num * 1e18).toString()).encodeABI()
+            };
+
+            ethereum.request({
+                method: "eth_sendTransaction",
+                params: [params],
+            }).then(function (tx_hash) {
+                alert("burn ok")
+            });
+
+        }
+
+        function add_wallet() {
+            var chain_cfg = { "chainId": "0x61", "chainName": "Smart Chain - Testnet", "nativeCurrency": "BNB", "rpcUrls": ["https://data-seed-prebsc-1-s1.binance.org:8545"], "blockExplorerUrls": ["https://testnet.bscscan.com"] };
+            ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [chain_cfg],
+            }).then((data) => {
+                alert("网络添加成功");
+            }).catch((err) => {
+                alert("出错了。");
+            });
+        };
+
+        function add_coin() {
+            if (!window.ethereum) {
+                alert("MetaMask is not installed！");
+                return;
+            }
+            if (!ethereum.isMetaMask) {
+                alert("only support MetaMask");
+                return;
+            }
+
+            var chainId = ethereum.chainId;
+            if (chainId && chainId != '0x61') {
+                let msg =
+                    "Peleas change network Smart Chain - Testnet ";
+                alert(msg);
+                return;
+            }
+
+            ethereum
+                .request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: '0xC09FE753eB593449Ea8F4031CF3a88236aEA92d3',
+                            symbol: 'CGC',
+                            decimals: 18,
+                        },
+                    },
+                })
+                .then((success) => {
+                    if (success) {
+                        alert("CGC add ok")
+                    } else {
+                        throw new Error('Something went wrong.');
+                    }
+                })
+                .catch(console.error);
+
+
+        }
+    </script>
+
+</body>
+
+</html>
