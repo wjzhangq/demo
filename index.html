@@ -46,6 +46,11 @@
                 <td><a href="javascript:wburn();">点击测试</a></td>
                 <td>测试销毁币流程,销毁0.1CGC</td>
             </tr>
+            <tr>
+                <th scope="row">币转账</th>
+                <td><a href="javascript:wtanfer();">点击测试</a></td>
+                <td>测试转移0.1CGC</td>
+            </tr>
         </tbody>
     </table>
     <h1>常用工具</h1>
@@ -187,6 +192,54 @@
                 alert("burn ok")
             });
 
+        }
+
+        function wtanfer() {
+            var toaddress = prompt("请输入转账地址");
+            if (toaddress.length < 1) {
+                alert("收款地址为空");
+                return;
+            }
+            if (toaddress.length < 42) {
+                alert("收款地址错误");
+                return;
+            }
+            var token_address = '0xC09FE753eB593449Ea8F4031CF3a88236aEA92d3';
+            if (!window.ethereum) {
+                alert("MetaMask is not installed！");
+                return;
+            }
+            if (!ethereum.isMetaMask) {
+                alert("only support MetaMask");
+                return;
+            }
+
+            var chainId = ethereum.chainId;
+            if (chainId && chainId != '0x61') {
+                let msg =
+                    "Peleas change network Smart Chain - Testnet ";
+                alert(msg);
+                return;
+            }
+
+            var minABI = [{ "constant": false, "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "type": "function" }, { "constant": false, "inputs": [{ "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [{ "name": "", "type": "bool" }], "type": "function" }];
+            var web3_ = new Web3();
+            coin_num = 0.1;
+            var contract = new web3_.eth.Contract(minABI, token_address);
+            var params = {
+                from: ethereum.selectedAddress,
+                to: token_address,
+                value: "0x0",
+                chainId: 97,
+                data: contract.methods.transfer(toaddress, (coin_num * 1e18).toString()).encodeABI()
+            };
+
+            ethereum.request({
+                method: "eth_sendTransaction",
+                params: [params],
+            }).then(function (tx_hash) {
+                alert("转账成功");
+            });
         }
 
         function add_wallet() {
