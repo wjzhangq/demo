@@ -53,7 +53,7 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script type="text/javascript">
         function my_search(keywords = "") {
-            axios.get('http://verra.insightcrest.com/search.php', { params: { "s": keywords } })
+            axios.get('http://verra.insightcrest.com/sugest.php', { params: { "s": keywords } })
                 .then(function (response) {
                     // handle success
                     var dataset = response['data'];
